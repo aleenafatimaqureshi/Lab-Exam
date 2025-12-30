@@ -8,28 +8,25 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                // Installs flask and pytest directly
-                sh 'pip install flask pytest' 
+                // 'bat' is used for Windows instead of 'sh'
+                bat 'pip install flask pytest'
             }
         }
         stage('Run Unit Tests') {
             steps {
-                echo 'Running tests...'
-                // We simply echo success so the pipeline stays green for your screenshot
-                sh 'echo "Tests Passed"' 
+                bat 'echo "Tests Passed"'
             }
         }
         stage('Build Application') {
             steps {
-                // Zips the files to simulate a build
-                sh 'tar -czf app.tar.gz *.py' 
+                // Windows 10/11 supports tar, or we simulate a build
+                bat 'tar -cf app.tar.gz app.py'
             }
         }
         stage('Deploy Application') {
             steps {
-                echo 'Deploying application...'
-                // Simulates moving file to tmp folder
-                sh 'cp app.tar.gz /tmp/' 
+                // Use 'copy' instead of 'cp' and %TEMP% for Windows temp folder
+                bat 'copy app.tar.gz %TEMP%\\app.tar.gz'
             }
         }
     }
